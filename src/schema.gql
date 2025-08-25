@@ -1,0 +1,157 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Category {
+  id: ID!
+  name: String!
+}
+
+type UserProvider {
+  id: ID!
+  provider: String!
+  providerId: String!
+  accessToken: String
+  refreshToken: String
+  user: User!
+}
+
+type User {
+  id: Int!
+  name: String!
+  email: String!
+  password: String
+  role: String!
+  status: String!
+  providers: [UserProvider!]
+  reviews: [Review!]
+}
+
+type Review {
+  id: ID!
+  rating: Float!
+  comment: String
+  product: Product!
+  user: User!
+  createdAt: Date!
+}
+
+type Product {
+  id: Int!
+  name: String!
+  description: String
+  price: Float!
+  isActive: Boolean!
+  category: Category
+  reviews: [Review!]
+  averageRating: Float
+}
+
+type DeleteProductResponse {
+  success: Boolean!
+}
+
+type PaginationMeta {
+  total: Int!
+  page: Int!
+  limit: Int!
+  totalPages: Int!
+}
+
+type ProductPaginatedResponse {
+  items: [Product!]!
+  pagination: PaginationMeta!
+}
+
+type RegisterResponse {
+  success: Boolean!
+}
+
+type LoginResponse {
+  access_token: String!
+}
+
+type ReviewPaginatedResponse {
+  items: [Review!]!
+  pagination: PaginationMeta!
+}
+
+"""Date custom scalar type"""
+scalar Date
+
+type Query {
+  products: ProductPaginatedResponse!
+  product(id: Int!): Product!
+  protectedHello: String!
+  user(email: String!): User!
+  reviews(pagination: PaginationInput): ReviewPaginatedResponse!
+  review(id: Int!): Review!
+  categories: [Category!]!
+  category(id: Int!): Category!
+}
+
+input PaginationInput {
+  page: Int!
+  limit: Int!
+}
+
+type Mutation {
+  createProduct(createProductInput: CreateProductInput!): Product!
+  deleteProd(id: Int!): DeleteProductResponse!
+  register(registerInput: RegisterUserInput!): RegisterResponse!
+  login(loginInput: LoginUserInput!): LoginResponse!
+  refreshTokens: LoginResponse!
+  createUser(createUserInput: CreateUserInput!): User!
+  removeUser(id: Int!): User!
+  createReview(createReviewInput: CreateReviewInput!): Review!
+  updateReview(updateReviewInput: UpdateReviewInput!): Review!
+  createCategory(createCategoryInput: CreateCategoryInput!): Category!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
+  removeCategory(id: Int!): Category!
+}
+
+input CreateProductInput {
+  name: String!
+  description: String
+  price: Float!
+  categoryId: Int
+}
+
+input RegisterUserInput {
+  name: String!
+  email: String!
+  password: String!
+}
+
+input LoginUserInput {
+  email: String!
+  password: String!
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+  password: String
+}
+
+input CreateReviewInput {
+  productId: Float!
+  rating: Float!
+  comment: String
+}
+
+input UpdateReviewInput {
+  productId: Float
+  rating: Float
+  comment: String
+  id: Int!
+}
+
+input CreateCategoryInput {
+  name: String!
+}
+
+input UpdateCategoryInput {
+  name: String
+  id: Int!
+}
