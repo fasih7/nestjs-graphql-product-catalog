@@ -25,6 +25,6 @@ export class RefreshTokenStrategy extends PassportStrategy(
 
   validate(req: Request, payload: any) {
     const refreshToken = req?.cookies?.[REFRESH_COOKIE];
-    return { ...payload, refreshToken }; // attach raw RT so service can verify hash
+    return { ...payload, refreshToken };
   }
 }
