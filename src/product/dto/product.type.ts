@@ -13,4 +13,7 @@ export class Product {
 
   @Field((type) => Date)
   createdAt: Date;
+
+  @Field()
+  originalCost: number;
 }

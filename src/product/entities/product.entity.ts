@@ -32,6 +32,9 @@ export class Product {
   @Column('decimal', { precision: 10, scale: 2 })
   price: number;
 
+  @Column('decimal', { precision: 10, scale: 2, nullable: true })
+  originalCost?: number;
+
   @Field()
   @Column({ default: true })
   isActive: boolean;

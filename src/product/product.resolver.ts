@@ -1,4 +1,13 @@
-import { Resolver, Query, Args, Int, Mutation } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Args,
+  Int,
+  Mutation,
+  ResolveField,
+  Parent,
+  Float,
+} from '@nestjs/graphql';
 import { ProductService } from './product.service';
 import { Product } from './entities/product.entity';
 import { CreateProductInput } from './dto/create-product.input';
@@ -7,8 +16,9 @@ import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '../auth/guards/jwt-auth.gaurd';
 import { RolesGuard } from '../auth/guards/role.gaurd';
 import { Roles } from '../auth/decorators/roles.decorator';
-import { UserRole } from '../user/entities/user.entity';
+import { User, UserRole } from '../user/entities/user.entity';
 import { ProductPaginatedResponse } from './dto/products.response';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
 
 @Resolver(() => Product)
 export class ProductResolver {
@@ -36,5 +46,12 @@ export class ProductResolver {
   @Roles(UserRole.admin)
   deleteProduct(@Args('id', { type: () => Int }) id: number) {
     return this.productService.deleteById(id);
+  }
+
+  @ResolveField(() => Float, { nullable: true, name: 'originalCost' })
+  @UseGuards(GqlAuthGuard, RolesGuard)
+  @Roles(UserRole.admin)
+  getOriginalCost(@Parent() product: Product, @CurrentUser() user: User) {
+    return product.originalCost;
   }
 }

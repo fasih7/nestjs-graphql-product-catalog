@@ -45,6 +45,7 @@ type Product {
   category: Category
   reviews: [Review!]
   averageRating: Float
+  originalCost: Float
 }
 
 type DeleteProductResponse {
@@ -114,6 +115,7 @@ input CreateProductInput {
   name: String!
   description: String
   price: Float!
+  originalCost: Float
   categoryId: Int
 }
 

@@ -22,6 +22,7 @@ import databaseConfig from './config/database.config';
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       context: ({ req, res }) => ({ req, res }),
+      fieldResolverEnhancers: ['guards'],
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
